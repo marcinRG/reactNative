@@ -1,45 +1,22 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View, Button, TextInput, Alert, Image} from 'react-native';
-import {SearchBar} from "./components/SearchBar";
-import {LeftBar} from "./components/LeftBar";
-import {RelativeContainer} from "./components/RealtiveContainer";
-import {MapPlaceHolder} from "./components/MapPlaceHolder";
-import {NorthNeedle} from "./components/NorthNeedle";
-import {AddLocationButton} from "./components/AddLocationButton";
+import {MapView} from "./components/MapView";
+import {placeTypes} from "./const/placeTypes";
 
 export default function App() {
-    console.log('run');
+    console.log('run app');
     return (
-        <RelativeContainer>
-            <View style={styles.backGroundContainer}>
-                <SearchBar></SearchBar>
-                <MapPlaceHolder>
-                </MapPlaceHolder>
+        <View>
+            <View>
+                <Pin icon={placeTypes.DOT}></Pin>
+                <Text>Lorem ipsum</Text>
             </View>
-            <NorthNeedle></NorthNeedle>
-            <LeftBar></LeftBar>
-            <AddLocationButton></AddLocationButton>
-        </RelativeContainer>
+            <View>
+                <Button title="No"></Button>
+                <Button title="Yes"></Button>
+            </View>
+        </View>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative'
-    },
-
-    backGroundContainer: {
-        width: '100%',
-        height: '100%',
-        paddingTop: 35,
-        paddingHorizontal: 0,
-        position: 'relative'
-    },
-    imgStyle: {
-        width: '100%',
-        height: '100%'
-    }
-});
+const styles = StyleSheet.create({});

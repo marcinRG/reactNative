@@ -57,6 +57,12 @@ function createSmallIcon(placeType) {
                 source={require('./../assets/ledge.png')}
             />
         }
+        case placeTypes.DOT: {
+            return <Image
+                style={styles.imgIconStyle}
+                source={require('./../assets/white-dot.png')}
+            />
+        }
     }
 }
 

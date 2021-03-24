@@ -4,5 +4,6 @@ export const placeTypes = {
     OTHER: 'other',
     LEDGE: 'ledge',
     RAIL: 'rail',
-    GAP: 'gap'
+    GAP: 'gap',
+    DOT: 'dot'
 }

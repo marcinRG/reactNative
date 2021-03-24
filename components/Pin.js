@@ -11,7 +11,7 @@ export class Pin extends Component {
         return (
             <View style={styles.pinStyle}>
                 {this.props.icon && <PinImage icon={this.props.icon}></PinImage>}
-                <Text style={styles.txt}>{this.props.text}</Text>
+                {this.props.text && <Text style={styles.txt}>{this.props.text}</Text>}
             </View>
         )
     }
