@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View, Modal, TouchableOpacity} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
 import {Pin} from "./Pin";
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
         paddingTop: 10,
     },
     buttonStyle: {
-        backgroundColor: 'yellow',
         paddingVertical: 20,
         paddingHorizontal: 40,
         margin: 5,
