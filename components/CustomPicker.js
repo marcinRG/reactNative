@@ -3,9 +3,9 @@ import {StyleSheet, View} from 'react-native';
 import {Picker} from "@react-native-picker/picker";
 
 export function CustomPicker(props) {
-    const handleChange = () => {
+    const handleChange = (value) => {
         if (props.action) {
-            props.action(props.id);
+            props.action(value);
         }
     };
 
@@ -15,6 +15,7 @@ export function CustomPicker(props) {
                 selectedValue={props.selectedValue}
                 mode="dialog"
                 onValueChange={handleChange}>
+                {props.showPlaceholder && <Picker.Item key={-1} label={props.placeholderLabel} value=""/>}
                 {createPickerItems(props.items)}
             </Picker>
         </View>
@@ -22,9 +23,10 @@ export function CustomPicker(props) {
 }
 
 function createPickerItems(items) {
-    return items.map((item) => {
-        return <Picker.Item lablel={item.description} value={item.value}></Picker.Item>
+    const PickerItems = items.map((item, index) => {
+        return <Picker.Item key={index} label={item.description} value={item.value}></Picker.Item>
     });
+    return PickerItems;
 }
 
 const styles = StyleSheet.create({

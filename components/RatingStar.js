@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         maxWidth: 35,
     },
     txt: {
-        color: '#FD9668',
+        color: '#FF633B',
         fontSize: 20,
         alignSelf: 'center',
         textAlign: 'center'

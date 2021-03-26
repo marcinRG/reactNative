@@ -14,7 +14,6 @@ export function Rating(props) {
 }
 
 function createStars(starMaxCount, selected, starType, action) {
-    console.log('creating stars');
     let stars = [];
     for (let i = 1; i <= starMaxCount; i++) {
         let star = <RatingStar key={i} id={i} starType={starType} selected={selected} action={action}></RatingStar>;
