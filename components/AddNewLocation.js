@@ -5,6 +5,7 @@ import {places} from "../const/places";
 import {CustomPicker} from "./CustomPicker";
 import {Rating} from "./Rating";
 import {starTypes} from "../const/starTypes";
+import MapView from 'react-native-maps';
 
 
 export function AddNewLocation(props) {
@@ -49,7 +50,7 @@ export function AddNewLocation(props) {
                 <View style={styles.formStyle}>
                     <View style={styles.titleView}>
                         <TouchableOpacity onPress={backActionHandler}>
-                            <Text style={styles.buttonBack}>&#8249;</Text>
+                            <Text style={styles.buttonBack}>&#8249;&#8249;</Text>
                         </TouchableOpacity>
                         <Text style={styles.textTitle}>Add new spot</Text>
                     </View>
@@ -81,7 +82,18 @@ export function AddNewLocation(props) {
                             <Text style={{color: 'white', textAlign: 'center', fontWeight: "bold"}}>Save</Text>
                         </LinearGradient>
                     </TouchableOpacity>
-
+                    <View style={styles.mapContainer}>
+                        <MapView
+                            style={styles.map}
+                            loadingEnabled={true}
+                            initialRegion={{
+                                latitude: 51.109225603920585,
+                                longitude: 17.035311295831104,
+                                latitudeDelta: 0.0922,
+                                longitudeDelta: 0.0421,
+                            }}>
+                        </MapView>
+                    </View>
 
                 </View>
             </View>
@@ -91,6 +103,18 @@ export function AddNewLocation(props) {
 }
 
 const styles = StyleSheet.create({
+    map: {
+        width: '100%', //Dimensions.get('window').width,
+        height: '100%', //Dimensions.get('window').height,
+    },
+
+    mapContainer: {
+        paddingVertical: 10,
+        backgroundColor: '#fff',
+        height: '100%',
+        width: '100%'
+    },
+
     containerStyle: {
         flex: 1,
         justifyContent: "flex-start",
@@ -113,7 +137,8 @@ const styles = StyleSheet.create({
     },
 
     buttonBack: {
-        fontSize: 30
+        fontSize: 30,
+        minWidth: 30
     },
 
     textTitle: {

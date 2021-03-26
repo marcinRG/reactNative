@@ -2,10 +2,21 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, Modal, TextInput} from 'react-native';
 import {Rating} from "./Rating";
 import {starTypes} from "../const/starTypes";
+import MapView from "react-native-maps";
+import {placeTypes} from "../const/placeTypes";
+import {LocationDetails} from "./LocationDetails";
+import {LocationRanking} from "./LocationRanking";
 
 export function ShowLocationDetails(props) {
-
+    const maxRating = 5;
     const [showSpot, changeShowSpot] = useState(true);
+    const [locationDetails,setLocationDetails] = useState({
+        name: 'Lorem ipsum',
+        type: placeTypes.DIY,
+        location: 'Wrocław, dolnośląskie',
+        kickOut: 2,
+        rating: 4
+    })
 
     const backActionHandler = () => {
         if (props.backAction) {
@@ -23,28 +34,33 @@ export function ShowLocationDetails(props) {
                 <View style={styles.formStyle}>
                     <View style={styles.titleView}>
                         <TouchableOpacity onPress={backActionHandler}>
-                            <Text style={styles.buttonBack}>&#8249;</Text>
+                            <Text style={styles.buttonBack}>&#8249;&#8249;</Text>
                         </TouchableOpacity>
                         <Text style={styles.textTitle}>Location details</Text>
                     </View>
                     <View style={styles.tabSelectionContainer}>
                         <TouchableOpacity style={styles.selectionButton} onPress={()=>{changeShowSpot(true)}}>
-                            <Text style={styles.buttonText}>Spot</Text>
+                            <Text style={getStyle(showSpot)}>Spot</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.selectionButton} onPress={()=>{changeShowSpot(false)}}>
-                            <Text style={styles.buttonText}>Ranking</Text>
+                            <Text style={getStyle(!showSpot)}>Ranking</Text>
                         </TouchableOpacity>
                     </View>
-                    {showSpot && <View style={styles.spotDetails}>
-                        <Text style={styles.textLabel}>Name</Text>
-                        <Text style={styles.textField}>Name</Text>
-                        <Text style={styles.textLabel}>Type</Text>
-                        <Text style={styles.textField}>Type</Text>
-                        <Text style={styles.textLabel}>Location</Text>
-                        <Text style={styles.textField}>Location</Text>
-                        <Rating max={5} starType={starTypes.CIRCLE} title="Kickout" selected={1}></Rating>
-                        <Rating max={5} starType={starTypes.STAR} title="Rating" selected={4}></Rating>
-                    </View>}
+                    {showSpot && <LocationDetails details={locationDetails}></LocationDetails>}
+                    {!showSpot && <LocationRanking></LocationRanking>}
+                    <View style={styles.mapContainer}>
+                        <MapView
+                            style={styles.map}
+                            loadingEnabled={true}
+                            initialRegion={{
+                                latitude: 51.109225603920585,
+                                longitude: 17.035311295831104,
+                                latitudeDelta: 0.0922,
+                                longitudeDelta: 0.0421,
+                            }}>
+                        </MapView>
+                    </View>
+
 
                 </View>
             </View>
@@ -53,7 +69,27 @@ export function ShowLocationDetails(props) {
 
 }
 
+function getStyle(boolValue) {
+    let styleTab = [styles.buttonText]
+    if (boolValue) {
+        styleTab.push(styles.buttonTextSelected);
+    }
+    return styleTab;
+}
+
 const styles = StyleSheet.create({
+    map: {
+        width: '100%', //Dimensions.get('window').width,
+        height: '100%', //Dimensions.get('window').height,
+    },
+
+    mapContainer: {
+        paddingVertical: 10,
+        backgroundColor: '#fff',
+        height: '100%',
+        width: '100%'
+    },
+
     containerStyle: {
         flex: 1,
         justifyContent: "flex-start",
@@ -76,7 +112,8 @@ const styles = StyleSheet.create({
     },
 
     buttonBack: {
-        fontSize: 30
+        fontSize: 30,
+        minWidth: 30
     },
 
     textTitle: {
@@ -99,7 +136,12 @@ const styles = StyleSheet.create({
 
     buttonText: {
         textAlign: 'center',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: 'black'
+    },
+
+    buttonTextSelected: {
+        color: '#FF633B'
     },
 
     spotDetails: {
