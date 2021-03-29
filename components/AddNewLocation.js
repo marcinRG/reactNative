@@ -1,14 +1,31 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Modal, TextInput} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, Modal, TextInput, Image} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
 import {places} from "../const/places";
 import {CustomPicker} from "./CustomPicker";
 import {Rating} from "./Rating";
 import {starTypes} from "../const/starTypes";
 import MapView from 'react-native-maps';
+import * as ImagePicker from 'expo-image-picker';
 
 
 export function AddNewLocation(props) {
+
+    const [image, setImage] = useState(null);
+
+    const openImage = async () => {
+        let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (permissionResult.granted === false) {
+            return;
+        }
+
+        let pickerResult = await ImagePicker.launchImageLibraryAsync();
+        if (pickerResult.cancelled === true) {
+            return;
+        }
+        setImage({ localUri: pickerResult.uri });
+    }
+
 
     const [kickOutRating, changeKickOutRating] = useState(3);
     const handleKickOutChange = (id) => {
@@ -55,7 +72,7 @@ export function AddNewLocation(props) {
                         <Text style={styles.textTitle}>Add new spot</Text>
                     </View>
                     <View style={styles.addPictures}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={openImage}>
                             <LinearGradient colors={['#FF633B', '#FD9668']}
                                             style={styles.buttonAddPictures}
                                             start={{x: 0, y: 0.5}}
@@ -63,7 +80,11 @@ export function AddNewLocation(props) {
                                 <Text style={{color: 'white', textAlign: 'center'}}>&#65291;</Text>
                             </LinearGradient>
                         </TouchableOpacity>
-                        <Text>add some pictures</Text>
+                        {image && <Image
+                            source={{ uri: image.localUri }}
+                            style={styles.imgThumbnail}
+                        ></Image>}
+                        {!image && <Text>add some pictures</Text>}
                     </View>
                     <TextInput placeholder="Name" style={styles.textInputStyle}></TextInput>
                     <CustomPicker items={places} selectedValue={selectedPlace} showPlaceholder={true}
@@ -154,6 +175,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: "flex-start",
         alignItems: "center",
+    },
+
+    imgThumbnail: {
+       height: 40,
+       width: 40
     },
 
     buttonAddPictures: {
