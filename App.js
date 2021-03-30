@@ -6,6 +6,7 @@ import MapView from 'react-native-maps';
 import {AddNewLocation} from "./components/AddNewLocation";
 import {ShowLocationDetails} from "./components/ShowLocationDetails";
 import {ModalMessage} from "./components/ModalMessage";
+import {LocationProvider} from "./context/locationContext";
 
 export default function App() {
 
@@ -38,15 +39,17 @@ export default function App() {
 
 
     return (
-        <View style={styles.centeredView}>
-            <ModalMessage show={showMsgModal} showButtons={true} message={"to jest jakaś wiadomość do wyświetlenia"}
-                          action={hideMsgModal}></ModalMessage>
-            <AddNewLocation show={showAddModal} backAction={hideAddLocationModal}></AddNewLocation>
-            <ShowLocationDetails show={showDetailsModal} backAction={hideDetailsModal}></ShowLocationDetails>
-            <Button title="pokaz modal Location details" onPress={buttonPressHandler3}></Button>
-            <Button title="pokaz modal add Location" onPress={buttonPressHandler2}></Button>
-            <Button title="pokaz modal msg" onPress={buttonPressHandler4}></Button>
-        </View>
+            <View style={styles.centeredView}>
+                <LocationProvider>
+                    <ModalMessage show={showMsgModal} showButtons={true} message={"to jest jakaś wiadomość do wyświetlenia"}
+                                  action={hideMsgModal}></ModalMessage>
+                    <AddNewLocation show={showAddModal} backAction={hideAddLocationModal}></AddNewLocation>
+                    <ShowLocationDetails show={showDetailsModal} backAction={hideDetailsModal}></ShowLocationDetails>
+                    <Button title="pokaz modal Location details" onPress={buttonPressHandler3}></Button>
+                    <Button title="pokaz modal add Location" onPress={buttonPressHandler2}></Button>
+                    <Button title="pokaz modal msg" onPress={buttonPressHandler4}></Button>
+                </LocationProvider>
+            </View>
     );
 }
 
