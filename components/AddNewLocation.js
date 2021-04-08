@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Modal, TextInput, Image} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, Modal, TextInput, Image, ScrollView} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
 import {places} from "../const/places";
 import {CustomPicker} from "./CustomPicker";
@@ -65,57 +65,59 @@ export function AddNewLocation(props) {
             statusBarTranslucent={true}>
             <View style={styles.containerStyle}>
                 <View style={styles.formStyle}>
-                    <View style={styles.titleView}>
-                        <TouchableOpacity onPress={backActionHandler}>
-                            <Text style={styles.buttonBack}>&#8249;&#8249;</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.textTitle}>Add new spot</Text>
-                    </View>
-                    <View style={styles.addPictures}>
-                        <TouchableOpacity onPress={openImage}>
+                    <ScrollView>
+                        <View style={styles.titleView}>
+                            <TouchableOpacity onPress={backActionHandler}>
+                                <Text style={styles.buttonBack}>&#8249;&#8249;</Text>
+                            </TouchableOpacity>
+                            <Text style={styles.textTitle}>Add new spot</Text>
+                        </View>
+                        <View style={styles.addPictures}>
+                            <TouchableOpacity onPress={openImage}>
+                                <LinearGradient colors={['#FF633B', '#FD9668']}
+                                                style={styles.buttonAddPictures}
+                                                start={{x: 0, y: 0.5}}
+                                                end={{x: 1, y: 0.5}}>
+                                    <Text style={{color: 'white', textAlign: 'center'}}>&#65291;</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                            {image && <Image
+                                source={{ uri: image.localUri }}
+                                style={styles.imgThumbnail}
+                            ></Image>}
+                            {!image && <Text>add some pictures</Text>}
+                        </View>
+                        <TextInput placeholder="Name" style={styles.textInputStyle}></TextInput>
+                        <CustomPicker items={places} selectedValue={selectedPlace} showPlaceholder={true}
+                                      placeholderLabel={"wybierz coś ..."} action={changeSelectedPlace}></CustomPicker>
+                        <TextInput placeholder="Location" style={styles.textInputStyle}></TextInput>
+                        <TextInput placeholder="Other text input"  multiline={true} numberOfLines={4} style={styles.textInputStyle}></TextInput>
+                        <Rating max={5} starType={starTypes.CIRCLE} title="Kickout" selected={kickOutRating}
+                                action={handleKickOutChange}></Rating>
+                        <Rating max={5} starType={starTypes.STAR} title="Rating" selected={ratingRating}
+                                action={handleRatingChange}></Rating>
+
+                        <TouchableOpacity onPress={saveButtonHandler}>
                             <LinearGradient colors={['#FF633B', '#FD9668']}
-                                            style={styles.buttonAddPictures}
+                                            style={styles.buttonStyle}
                                             start={{x: 0, y: 0.5}}
                                             end={{x: 1, y: 0.5}}>
-                                <Text style={{color: 'white', textAlign: 'center'}}>&#65291;</Text>
+                                <Text style={{color: 'white', textAlign: 'center', fontWeight: "bold"}}>Save</Text>
                             </LinearGradient>
                         </TouchableOpacity>
-                        {image && <Image
-                            source={{ uri: image.localUri }}
-                            style={styles.imgThumbnail}
-                        ></Image>}
-                        {!image && <Text>add some pictures</Text>}
-                    </View>
-                    <TextInput placeholder="Name" style={styles.textInputStyle}></TextInput>
-                    <CustomPicker items={places} selectedValue={selectedPlace} showPlaceholder={true}
-                                  placeholderLabel={"wybierz coś ..."} action={changeSelectedPlace}></CustomPicker>
-                    <TextInput placeholder="Location" style={styles.textInputStyle}></TextInput>
-                    <Rating max={5} starType={starTypes.CIRCLE} title="Kickout" selected={kickOutRating}
-                            action={handleKickOutChange}></Rating>
-                    <Rating max={5} starType={starTypes.STAR} title="Rating" selected={ratingRating}
-                            action={handleRatingChange}></Rating>
-
-                    <TouchableOpacity onPress={saveButtonHandler}>
-                        <LinearGradient colors={['#FF633B', '#FD9668']}
-                                        style={styles.buttonStyle}
-                                        start={{x: 0, y: 0.5}}
-                                        end={{x: 1, y: 0.5}}>
-                            <Text style={{color: 'white', textAlign: 'center', fontWeight: "bold"}}>Save</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
-                    <View style={styles.mapContainer}>
-                        <MapView
-                            style={styles.map}
-                            loadingEnabled={true}
-                            initialRegion={{
-                                latitude: 51.109225603920585,
-                                longitude: 17.035311295831104,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
-                            }}>
-                        </MapView>
-                    </View>
-
+                        <View style={styles.mapContainer}>
+                            <MapView
+                                style={styles.map}
+                                loadingEnabled={true}
+                                initialRegion={{
+                                    latitude: 51.109225603920585,
+                                    longitude: 17.035311295831104,
+                                    latitudeDelta: 0.0922,
+                                    longitudeDelta: 0.0421,
+                                }}>
+                            </MapView>
+                        </View>
+                    </ScrollView>
                 </View>
             </View>
         </Modal>
@@ -133,7 +135,8 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         backgroundColor: '#fff',
         height: '100%',
-        width: '100%'
+        width: '100%',
+        minHeight: 300
     },
 
     containerStyle: {
