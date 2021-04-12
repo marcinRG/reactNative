@@ -1,21 +1,58 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Modal, TextInput} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, Modal, ScrollView} from 'react-native';
 import {Rating} from "./Rating";
 import {starTypes} from "../const/starTypes";
-import MapView from "react-native-maps";
+import MapView, {Marker} from "react-native-maps";
 import {placeTypes} from "../const/placeTypes";
 import {LocationDetails} from "./LocationDetails";
 import {LocationRanking} from "./LocationRanking";
+import {Pin} from "./Pin";
+//import {ScrollView} from "react-native-web";
 
 export function ShowLocationDetails(props) {
     const maxRating = 5;
+    const [selectedTab, setSelectedTab] = useState(0)
     const [showSpot, changeShowSpot] = useState(true);
-    const [locationDetails,setLocationDetails] = useState({
+    const [locationDetails, setLocationDetails] = useState({
+        type: placeTypes.LEDGE,
+        address: "Smolnik Rębiechów 1",
+        region: "Powiat lubański, Lower Silesia",
+        country: "Poland",
+
+        description: "Lorem ipsum lorem costam costam dług tekst",
+        created_date: "2021-04-08T22:42:26.587543",
         name: 'Lorem ipsum',
-        type: placeTypes.DIY,
-        location: 'Wrocław, dolnośląskie',
+
         kickOut: 2,
-        rating: 4
+        rating: 4,
+        mapLocation: {
+            latitude: 51.03088014175027,
+            latitudeDelta: 0.0045000000000000005,
+            longitude: 15.255562998354435,
+            longitudeDelta: 0.0045000000000000005,
+        },
+        posts_list: [
+            {
+                id: 724,
+                likes: 0,
+                owner_name: "john2412021-04-06T19:53:33.359004Z",
+                title: "typewriters, funding2410",
+            },
+            {
+                id: 725,
+                likes: 0,
+                owner_name: "john2412021-04-06T19:53:33.359004Z",
+                title: "word2411",
+            },
+            {
+                id: 726,
+                likes: 0,
+                owner_name: "john2412021-04-06T19:53:33.359004Z",
+                title: "cautions2412",
+            },
+        ]
+
+
     })
 
     const backActionHandler = () => {
@@ -23,6 +60,7 @@ export function ShowLocationDetails(props) {
             props.backAction();
         }
     }
+
 
     return (
         <Modal
@@ -39,27 +77,48 @@ export function ShowLocationDetails(props) {
                         <Text style={styles.textTitle}>Location details</Text>
                     </View>
                     <View style={styles.tabSelectionContainer}>
-                        <TouchableOpacity style={styles.selectionButton} onPress={()=>{changeShowSpot(true)}}>
-                            <Text style={getStyle(showSpot)}>Spot</Text>
+                        <TouchableOpacity style={styles.selectionButton} onPress={() => {
+                            setSelectedTab(0)
+                        }}>
+                            <Text style={getStyle(selectedTab === 0)}>Spot</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.selectionButton} onPress={()=>{changeShowSpot(false)}}>
-                            <Text style={getStyle(!showSpot)}>Ranking</Text>
+                        <TouchableOpacity style={styles.selectionButton} onPress={() => {
+                            setSelectedTab(1)
+                        }}>
+                            <Text style={getStyle(selectedTab === 1)}>Ranking</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.selectionButton} onPress={() => {
+                            setSelectedTab(2)
+                        }}>
+                            <Text
+                                style={getStyle(selectedTab === 2)}>{getPostsTitle(locationDetails.posts_list)}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.selectionButton} onPress={() => {
+                            setSelectedTab(3)
+                        }}>
+                            <Text style={getStyle(selectedTab === 3)}>Images</Text>
                         </TouchableOpacity>
                     </View>
-                    {showSpot && <LocationDetails details={locationDetails}></LocationDetails>}
-                    {!showSpot && <LocationRanking></LocationRanking>}
-                    <View style={styles.mapContainer}>
-                        <MapView
-                            style={styles.map}
-                            loadingEnabled={true}
-                            initialRegion={{
-                                latitude: 51.109225603920585,
-                                longitude: 17.035311295831104,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
-                            }}>
-                        </MapView>
-                    </View>
+                    <ScrollView>
+                        {(selectedTab === 0) && <LocationDetails details={locationDetails}></LocationDetails>}
+                        {(selectedTab === 1) && <LocationRanking></LocationRanking>}
+                        <View style={styles.mapContainer}>
+                            <MapView
+                                style={styles.map}
+                                loadingEnabled={true}
+                                region={{
+                                    ...locationDetails.mapLocation
+                                }}>
+                                <Marker coordinate={{
+                                    latitude: locationDetails.mapLocation.latitude,
+                                    longitude: locationDetails.mapLocation.longitude
+
+                                }}>
+                                    <Pin text={locationDetails.name} icon={placeTypes.DOT}></Pin>
+                                </Marker>
+                            </MapView>
+                        </View>
+                    </ScrollView>
 
 
                 </View>
@@ -67,6 +126,14 @@ export function ShowLocationDetails(props) {
         </Modal>
     );
 
+}
+
+function getPostsTitle(posts) {
+    let title = 'Comments'
+    if (posts.length > 0) {
+        title = title + '(' + posts.length + ')'
+    }
+    return title
 }
 
 function getStyle(boolValue) {
@@ -86,7 +153,7 @@ const styles = StyleSheet.create({
     mapContainer: {
         paddingVertical: 10,
         backgroundColor: '#fff',
-        height: '100%',
+        height: 300,
         width: '100%'
     },
 
@@ -100,7 +167,8 @@ const styles = StyleSheet.create({
 
     formStyle: {
         width: '90%',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        flex: 1
     },
 
     titleView: {
@@ -137,7 +205,8 @@ const styles = StyleSheet.create({
     buttonText: {
         textAlign: 'center',
         fontWeight: 'bold',
-        color: 'black'
+        color: 'black',
+        fontSize: 12
     },
 
     buttonTextSelected: {
@@ -162,6 +231,5 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5
 
     }
-
 
 });

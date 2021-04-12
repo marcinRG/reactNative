@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     pinStyle: {
         minWidth: 60,
         alignItems: 'center',
-        marginBottom: 15
+        marginBottom: 15,
     },
     txt: {
         fontSize: 12

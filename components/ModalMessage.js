@@ -36,7 +36,7 @@ export function ModalMessage(props) {
                         <TouchableOpacity onPress={() => {
                             doAction(answers.YES)
                         }}>
-                            <LinearGradient colors={['#FF633B', '#FD9668']}
+                            <LinearGradient colors={['#ff633b', '#FD9668']}
                                             style={styles.buttonStyle}
                                             start={{x: 0, y: 0.5}}
                                             end={{x: 1, y: 0.5}}>
