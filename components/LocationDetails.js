@@ -123,7 +123,6 @@ const styles = StyleSheet.create({
     addressContainer: {
         paddingVertical: 10,
         flex: 1,
-
     },
 
 
