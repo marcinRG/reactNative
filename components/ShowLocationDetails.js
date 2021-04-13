@@ -7,6 +7,7 @@ import {placeTypes} from "../const/placeTypes";
 import {LocationDetails} from "./LocationDetails";
 import {LocationRanking} from "./LocationRanking";
 import {Pin} from "./Pin";
+import {LocationComments} from "./LocationComments";
 //import {ScrollView} from "react-native-web";
 
 export function ShowLocationDetails(props) {
@@ -87,21 +88,25 @@ export function ShowLocationDetails(props) {
                         }}>
                             <Text style={getStyle(selectedTab === 1)}>Ranking</Text>
                         </TouchableOpacity>
+
                         <TouchableOpacity style={styles.selectionButton} onPress={() => {
                             setSelectedTab(2)
                         }}>
                             <Text
                                 style={getStyle(selectedTab === 2)}>{getPostsTitle(locationDetails.posts_list)}</Text>
                         </TouchableOpacity>
+
                         <TouchableOpacity style={styles.selectionButton} onPress={() => {
                             setSelectedTab(3)
                         }}>
                             <Text style={getStyle(selectedTab === 3)}>Images</Text>
                         </TouchableOpacity>
+
                     </View>
                     <ScrollView>
                         {(selectedTab === 0) && <LocationDetails details={locationDetails}></LocationDetails>}
                         {(selectedTab === 1) && <LocationRanking></LocationRanking>}
+                        {(selectedTab === 2) && <LocationComments details={locationDetails}></LocationComments>}
                         <View style={styles.mapContainer}>
                             <MapView
                                 style={styles.map}
