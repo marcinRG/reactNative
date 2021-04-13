@@ -21,6 +21,7 @@ export function LocationDetails(props) {
                     <Text style={{fontSize: 25}}>{props.details.name}</Text>
                     <Text style={styles.addressText}>{props.details.description}</Text>
                 </View>
+
                 <View style={styles.favorites}>
                     <Image
                         style={{width: 30, height: 30, resizeMode: 'stretch'}}
@@ -28,6 +29,15 @@ export function LocationDetails(props) {
                     ></Image>
                 </View>
             </View>
+
+            <View style={styles.ownerContainer}>
+                <Text style={{fontSize: 9, color: '#FD9668'}}>created by</Text>
+                <Image
+                    style={{margin: 5, width: 30, borderRadius: 15, height: 30}}
+                    source={require('./../assets/user-icon.jpg')}
+                ></Image>
+            </View>
+
 
             <View style={styles.additionalInfo}>
                 <View style={styles.infoWrapper}>
@@ -74,8 +84,17 @@ export function LocationDetails(props) {
 }
 
 const styles = StyleSheet.create({
+    ownerContainer: {
+        backgroundColor: 'whitesmoke',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        padding: 5
+    },
+
+
     infoWrapper: {
-       flexDirection: 'row'
+        flexDirection: 'row'
     },
 
     additionalInfo: {
