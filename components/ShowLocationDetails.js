@@ -8,58 +8,132 @@ import {LocationDetails} from "./LocationDetails";
 import {LocationRanking} from "./LocationRanking";
 import {Pin} from "./Pin";
 import {LocationComments} from "./LocationComments";
-//import {ScrollView} from "react-native-web";
+
 
 export function ShowLocationDetails(props) {
     const maxRating = 5;
     const [selectedTab, setSelectedTab] = useState(0)
-    const [showSpot, changeShowSpot] = useState(true);
-    const [locationDetails, setLocationDetails] = useState({
-        type: placeTypes.LEDGE,
+
+    const [address, setAddress] = useState({
         address: "Smolnik Rębiechów 1",
         region: "Powiat lubański, Lower Silesia",
         country: "Poland",
-
-        description: "Lorem ipsum lorem costam costam dług tekst",
-        created_date: "2021-04-08T22:42:26.587543",
-        name: 'Lorem ipsum',
-
-        kickOut: 2,
-        rating: 4,
-        mapLocation: {
-            latitude: 51.03088014175027,
-            latitudeDelta: 0.0045000000000000005,
-            longitude: 15.255562998354435,
-            longitudeDelta: 0.0045000000000000005,
-        },
-        posts_list: [
-            {
-                id: 724,
-                likes: 0,
-                owner_name: "john2412021-04-06T19:53:33.359004Z",
-                title: "typewriters, funding2410",
-            },
-            {
-                id: 725,
-                likes: 0,
-                owner_name: "john2412021-04-06T19:53:33.359004Z",
-                title: "word2411",
-            },
-            {
-                id: 726,
-                likes: 0,
-                owner_name: "john2412021-04-06T19:53:33.359004Z",
-                title: "cautions2412",
-            },
-        ]
-
-
     })
+
+    const [placeType, setPlaceType] = useState(placeTypes.LEDGE)
+    const [location, setLocation] = useState({
+        latitude: 51.03088014175027,
+        latitudeDelta: 0.0045000000000000005,
+        longitude: 15.255562998354435,
+        longitudeDelta: 0.0045000000000000005,
+    })
+    const [ranking, setRanking] = useState([
+        {
+            id: 841,
+            image_url: "/media/defaults/post_image.png",
+            likes: 0,
+            owner_id: 282,
+            owner_name: "john2802021-04-14T20:03:39.568069Z",
+            title: "loans2800",
+        },
+        {
+            id: 842,
+            image_url: "/media/defaults/post_image.png",
+            likes: 0,
+            owner_id: 282,
+            owner_name: "john2802021-04-14T20:03:39.568069Z",
+            title: "effects2801",
+        },
+        {
+            id: 843,
+            image_url: "/media/defaults/post_image.png",
+            likes: 0,
+            owner_id: 282,
+            owner_name: "john2802021-04-14T20:03:39.568069Z",
+            title: "swallows2802",
+        }
+    ])
+
+    const [additionalInfo, setAdditionalInfo] = useState({
+        views: 1,
+        likes: 0,
+        created_date: '2021-04-14T20:04:11.685993'
+    })
+
+    const [isFollowed, setIsFollowed] = useState(false)
+    const [isFavourite, setIsFavorite] = useState(false)
+
+    const [likesAndPosition,setLikesAndPosition] = useState({
+        ranking_position: 101,
+        is_already_disliked: false,
+        is_already_liked: false,
+    })
+
+    const [name, setName] = useState('Lorem ipsum')
+    const [description, setDescription] = useState('lorem ipsum 2')
+
+    const
+        [locationDetails, setLocationDetails] = useState({
+            type: placeTypes.LEDGE,
+            address: "Smolnik Rębiechów 1",
+            region: "Powiat lubański, Lower Silesia",
+            country: "Poland",
+
+            description: "vacuum, sections, arguments, damping, colors, radiuses, fireplug, pencil",
+            created_date: "2021-04-08T22:42:26.587543",
+            name: 'Lorem ipsum',
+
+            kickOut: 2,
+            rating: 4,
+            mapLocation: {
+                latitude: 51.03088014175027,
+                latitudeDelta: 0.0045000000000000005,
+                longitude: 15.255562998354435,
+                longitudeDelta: 0.0045000000000000005,
+            },
+            posts_list: [
+                {
+                    id: 841,
+                    image_url: "/media/defaults/post_image.png",
+                    likes: 0,
+                    owner_id: 282,
+                    owner_name: "john2802021-04-14T20:03:39.568069Z",
+                    title: "loans2800",
+                },
+                {
+                    id: 842,
+                    image_url: "/media/defaults/post_image.png",
+                    likes: 0,
+                    owner_id: 282,
+                    owner_name: "john2802021-04-14T20:03:39.568069Z",
+                    title: "effects2801",
+                },
+                {
+                    id: 843,
+                    image_url: "/media/defaults/post_image.png",
+                    likes: 0,
+                    owner_id: 282,
+                    owner_name: "john2802021-04-14T20:03:39.568069Z",
+                    title: "swallows2802",
+                },
+            ],
+            posts_ranking_ids: [841, 842, 843],
+
+
+        })
 
     const backActionHandler = () => {
         if (props.backAction) {
             props.backAction();
         }
+    }
+
+    const followSpot = () => {
+
+    }
+
+    const upvoteDownVoteHandler = () => {
+
     }
 
 
@@ -106,20 +180,21 @@ export function ShowLocationDetails(props) {
                     <ScrollView>
                         {(selectedTab === 0) && <LocationDetails details={locationDetails}></LocationDetails>}
                         {(selectedTab === 1) && <LocationRanking></LocationRanking>}
-                        {(selectedTab === 2) && <LocationComments details={locationDetails}></LocationComments>}
                         <View style={styles.mapContainer}>
                             <MapView
+                                zoomEnabled={false}
+                                scrollEnabled={false}
                                 style={styles.map}
                                 loadingEnabled={true}
                                 region={{
-                                    ...locationDetails.mapLocation
+                                    ...location
                                 }}>
                                 <Marker coordinate={{
-                                    latitude: locationDetails.mapLocation.latitude,
-                                    longitude: locationDetails.mapLocation.longitude
+                                    latitude: location.latitude,
+                                    longitude: location.longitude
 
                                 }}>
-                                    <Pin text={locationDetails.name} icon={placeTypes.DOT}></Pin>
+                                    <Pin text={name} icon={placeTypes.DOT}></Pin>
                                 </Marker>
                             </MapView>
                         </View>

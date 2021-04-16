@@ -3,93 +3,102 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import {Rating} from "./Rating";
 import {starTypes} from "../const/starTypes";
 import {Pin} from "./Pin";
+import {UpDownPosition} from "./UpDownPosition";
+import {FollowButton} from "./FollowButton";
+import {UserInfo} from "./UserInfo";
+import {iconTypes, InfoIcon} from "./InfoIcon";
 
 
 export function LocationDetails(props) {
     const maxRating = 5;
     return (
         <View style={styles.spotDetails}>
-            <Text style={styles.textLabel}>Name and description</Text>
-            <View style={styles.titleContainer}>
-                <View style={styles.upDownSelector}>
-                    <Text style={{color: '#ff633b', fontSize: 20}}>&#9650;</Text>
-                    <Text style={{fontSize: 15}}>5</Text>
-                    <Text style={{color: '#ff633b', fontSize: 20}}>&#9660;</Text>
-                </View>
-                <View style={styles.titleText}>
-
-                    <Text style={{fontSize: 25}}>{props.details.name}</Text>
-                    <Text style={styles.addressText}>{props.details.description}</Text>
+            <View style={styles.nameInfoContainer}>
+                <View style={styles.titleContainer}>
+                    <UpDownPosition postion={25}></UpDownPosition>
+                    <View style={styles.titleText}>
+                        <Text style={{fontSize: 25}}>{props.details.name}</Text>
+                        <Text style={styles.descriptionText}>{props.details.description}</Text>
+                    </View>
+                    <FollowButton follow={false}></FollowButton>
                 </View>
 
-                <View style={styles.favorites}>
-                    <Image
-                        style={{width: 30, height: 30, resizeMode: 'stretch'}}
-                        source={require('./../assets/mapAssets/heart.png')}
-                    ></Image>
+
+                <View style={styles.typeAndAddressContainer}>
+                    <View style={{justifyContent: 'center'}}>
+                        <Pin text={'Other'} icon={props.details.type}></Pin>
+                    </View>
+                    <View style={styles.addressContainer}>
+                        <Text style={styles.addressText}>{props.details.address}</Text>
+                        <Text style={styles.addressText}>{props.details.region}</Text>
+                        <Text style={styles.addressText}>{props.details.country}</Text>
+                    </View>
                 </View>
+
+                <View style={styles.additionalIcons}>
+                    <InfoIcon type={iconTypes.DATE} text={'2021-04-08'}></InfoIcon>
+                    <InfoIcon type={iconTypes.VIEWS} text={10}></InfoIcon>
+                    <InfoIcon type={iconTypes.FOLLOWERS} text={10}></InfoIcon>
+                    <InfoIcon type={iconTypes.LIKES} text={10}></InfoIcon>
+                </View>
+
+                <View style={styles.ownerContainer}>
+                    <UserInfo showAddtionalText={true} additonalText={'created by'} showUserName={false}
+                              user={{name: 'userXXX', img: './../assets/user-icon.jpg'}}></UserInfo>
+                </View>
+
             </View>
 
-            <View style={styles.ownerContainer}>
-                <Text style={{fontSize: 9, color: '#FD9668'}}>created by</Text>
-                <Image
-                    style={{margin: 5, width: 30, borderRadius: 15, height: 30}}
-                    source={require('./../assets/user-icon.jpg')}
-                ></Image>
+            <View style={styles.rankingsContainer}>
+                <Rating max={maxRating} starType={starTypes.CIRCLE} title="Kickout"
+                        selected={props.details.kickOut}></Rating>
+                <Rating max={maxRating} starType={starTypes.STAR} title="Rating"
+                        selected={props.details.rating}></Rating>
             </View>
 
-
-            <View style={styles.additionalInfo}>
-                <View style={styles.infoWrapper}>
-                    <Image
-                        style={{width: 16, height: 10, resizeMode: 'stretch'}}
-                        source={require('./../assets/mapAssets/eye.png')}
-                    ></Image>
-                    <Text>50</Text>
-                </View>
-                <View style={styles.infoWrapper}>
-                    <Image
-                        style={{width: 16, height: 10, resizeMode: 'stretch'}}
-                        source={require('./../assets/mapAssets/add-friend.png')}
-                    ></Image>
-                    <Text>12</Text>
-                </View>
-                <View style={styles.infoWrapper}>
-                    <Image
-                        style={{width: 16, height: 10, resizeMode: 'stretch'}}
-                        source={require('./../assets/mapAssets/like.png')}
-                    ></Image>
-                    <Text>10</Text>
-                </View>
-            </View>
-
-            <Text style={styles.textLabel}>Type and address</Text>
-            <View style={styles.typeAndAddressContainer}>
-                <View style={{justifyContent: 'center'}}>
-                    <Pin icon={props.details.type}></Pin>
-                </View>
-                <View style={styles.addressContainer}>
-                    <Text style={styles.addressText}>{props.details.address}</Text>
-                    <Text style={styles.addressText}>{props.details.region}</Text>
-                    <Text style={styles.addressText}>{props.details.country}</Text>
-                </View>
-            </View>
-
-            <Rating max={maxRating} starType={starTypes.CIRCLE} title="Kickout"
-                    selected={props.details.kickOut}></Rating>
-            <Rating max={maxRating} starType={starTypes.STAR} title="Rating" selected={props.details.rating}></Rating>
         </View>
     );
 
 }
 
 const styles = StyleSheet.create({
+
+    rankingsContainer: {
+        marginVertical: 30,
+        padding: 20,
+        elevation: 1,
+        backgroundColor: 'white',
+        borderColor: 'whitesmoke',
+        borderWidth: 1,
+        borderRadius: 10,
+    },
+
+    nameInfoContainer: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        marginBottom: 20,
+        //paddingVertical: 10,
+        padding: 10,
+        elevation: 1,
+        borderColor: 'whitesmoke',
+        borderWidth: 1
+    },
+
+
     ownerContainer: {
-        backgroundColor: 'whitesmoke',
+
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        padding: 5
+        paddingHorizontal: 5
+    },
+
+    additionalIcons: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        minHeight: 20,
+        paddingTop: 20,
+        paddingBottom: 10,
     },
 
 
@@ -112,12 +121,11 @@ const styles = StyleSheet.create({
     titleText: {
         flex: 1,
         paddingVertical: 10,
-        paddingHorizontal: 5
+        paddingHorizontal: 10,
     },
 
     titleContainer: {
-        backgroundColor: 'whitesmoke',
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
 
     upDownSelector: {
@@ -127,20 +135,30 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
 
-    addressText: {
+    descriptionText: {
         marginVertical: 4,
         marginHorizontal: 3,
-        fontSize: 15
+        fontSize: 14,
+        textAlign: 'justify'
+    },
+
+    addressText: {
+        marginVertical: 4,
+        marginHorizontal: 10,
+        fontSize: 14,
+        textAlign: 'justify'
     },
 
     typeAndAddressContainer: {
+        marginTop: 20,
+        marginBottom: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: 'whitesmoke',
     },
 
     addressContainer: {
         paddingVertical: 10,
+        //paddingLeft: 10,
         flex: 1,
     },
 
