@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Text, View, Modal, TouchableOpacity} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
 import {Pin} from "./Pin";
@@ -7,6 +7,8 @@ import {answers} from "../const/answers";
 
 
 export function ModalMessage(props) {
+
+
 
     const doAction = (answer) => {
         if (props.action) {
