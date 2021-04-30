@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, useWindowDimensions} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View} from 'react-native';
 import {RelativeContainer} from "./RealtiveContainer";
 import {SearchBar} from "./SearchBar";
 import {MapPlaceHolder} from "./MapPlaceHolder";
@@ -10,11 +10,11 @@ import {NorthNeedle} from "./NorthNeedle";
 
 export function MapViewWrapper(props) {
 
-    const dimensions = useWindowDimensions();
-    console.log('dimensions.width')
-    console.log(dimensions.width)
-    console.log('dimensions.height')
-    console.log(dimensions.height)
+    const [showBar, setShowBar] = useState(false)
+
+    const handleToggleShowBar = () => {
+        setShowBar(!showBar)
+    }
 
     return (
         <RelativeContainer>
@@ -24,8 +24,8 @@ export function MapViewWrapper(props) {
                 </MapPlaceHolder>
             </View>
             <NorthNeedle></NorthNeedle>
-            <LeftBar></LeftBar>
-            <AddLocationButton></AddLocationButton>
+            <LeftBar showBar={showBar}></LeftBar>
+            <AddLocationButton action={handleToggleShowBar}></AddLocationButton>
         </RelativeContainer>
     );
 }

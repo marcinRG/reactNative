@@ -1,21 +1,20 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
 
-export class AddLocationButton extends Component {
-    constructor(props) {
-        super(props);
+export function AddLocationButton(props) {
+
+    const handlePressButton = () => {
+        props.action()
     }
 
-    render() {
-        return (
-            <TouchableOpacity style={styles.ButtonContainer}>
-                    <Image
-                        style={styles.imgStyle}
-                        source={require('./../assets/add_button.png')}
-                    />
-            </TouchableOpacity>
-        );
-    }
+    return (
+        <TouchableOpacity style={styles.ButtonContainer} onPress={handlePressButton}>
+            <Image
+                style={styles.imgStyle}
+                source={require('./../assets/add_button.png')}
+            />
+        </TouchableOpacity>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
             alignItems: 'center',
             justifyContent: 'center',
             position: 'absolute',
-            bottom: 60,
+            bottom: 30,
             right: 10,
             elevation: 5,
         },

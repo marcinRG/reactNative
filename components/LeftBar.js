@@ -1,16 +1,25 @@
-import React, {useEffect, useState, useRef} from 'react';
-import {View, StyleSheet, Animated} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {View, StyleSheet, Animated, useWindowDimensions} from 'react-native';
 import {placeTypes} from "../const/placeTypes";
 import {Pin} from "./Pin";
 
+const fromBottom = 70
+const topOffset = 165
+const refenceHeight = 684
+
 export function LeftBar(props) {
 
-    const [showBar, setShowBar] = useState(false)
-    const topPosition = useRef(new Animated.Value(450)).current
+    const screenHeight = useWindowDimensions().height;
+    const topPosition = useRef(new Animated.Value((screenHeight - (fromBottom + topOffset)))).current;
 
-    const handleButtonPress = (placeType) => {
-        setShowBar(!showBar)
+    const rescale = () => {
+        if (screenHeight < refenceHeight) {
+            return {
+                scale: screenHeight / refenceHeight
+            }
+        }
     }
+
 
     const toggleBar = (toPosition) => {
         Animated.timing(topPosition, {
@@ -21,19 +30,19 @@ export function LeftBar(props) {
     }
 
     useEffect(() => {
-        let lastPosition = 450
-        if (showBar) {
+        let lastPosition = (screenHeight - (fromBottom + topOffset))
+        if (props.showBar) {
             lastPosition = 0
         }
         toggleBar(lastPosition)
 
-    }, [showBar])
+    }, [props.showBar])
 
     return (
 
-        <View style={styles.barContainer}>
+        <View style={[styles.barContainer, {height: screenHeight - (fromBottom + topOffset)}]}>
             <Animated.View style={[
-                styles.leftBarStyle, {transform: [{translateY: topPosition}]},
+                styles.leftBarStyle, {transform: [{translateY: topPosition},rescale()]},
             ]}>
                 <Pin text="Ledge" icon={placeTypes.LEDGE}></Pin>
                 <Pin text="Gap" icon={placeTypes.GAP}></Pin>
@@ -50,8 +59,7 @@ const styles = StyleSheet.create({
         width: 80,
         overflow: 'hidden',
         right: 10,
-        top: 70,
-        height: 450,
+        bottom: fromBottom,
     },
     leftBarStyle: {
         width: 80,
