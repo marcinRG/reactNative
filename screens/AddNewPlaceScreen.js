@@ -1,13 +1,12 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {NavigationWrapper} from "../components/NavigationWrapper/NavigationWrapper";
+import {MapViewWrapper} from "../components/MapViewWrapper";
 
 export function AddNewPlaceScreen(props) {
     return (
         <NavigationWrapper navigation={props.navigation}>
-            <View style={styles.centeredView}>
-                <Text>Add new place screen</Text>
-            </View>
+            <MapViewWrapper></MapViewWrapper>
         </NavigationWrapper>
     )
 }
